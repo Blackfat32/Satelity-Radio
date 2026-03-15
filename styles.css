@@ -1,0 +1,108 @@
+:root {
+    --primary: #00d2ff;
+    --accent: #92fe9d;
+    --bg: #0f172a;
+    --glass: rgba(255, 255, 255, 0.05);
+}
+
+body {
+    margin: 0;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: radial-gradient(circle at center, #1e293b 0%, #020617 100%);
+    font-family: 'Segoe UI', system-ui, sans-serif;
+    color: white;
+}
+
+.player-card {
+    background: var(--glass);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 40px;
+    padding: 40px;
+    width: 350px;
+    text-align: center;
+    box-shadow: 0 25px 50px rgba(0,0,0,0.5);
+}
+
+/* Ecualizador */
+.eq-container {
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    height: 40px;
+    gap: 5px;
+    margin-bottom: 20px;
+}
+
+.eq-bar {
+    width: 6px;
+    background: var(--primary);
+    height: 5px;
+    border-radius: 3px;
+    transition: 0.3s;
+}
+
+.playing .eq-bar {
+    animation: move 1s ease-in-out infinite;
+}
+
+@keyframes move {
+    0%, 100% { height: 5px; }
+    50% { height: 40px; }
+}
+
+/* Selector */
+select {
+    width: 100%;
+    padding: 12px;
+    background: rgba(255,255,255,0.1);
+    border: 1px solid rgba(255,255,255,0.2);
+    border-radius: 12px;
+    color: white;
+    font-size: 1rem;
+    margin-bottom: 25px;
+    outline: none;
+}
+
+.status {
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: var(--accent);
+    margin-bottom: 10px;
+}
+
+/* Botón Play */
+.play-btn {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    border: none;
+    background: linear-gradient(45deg, var(--primary), var(--accent));
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0 auto 30px;
+    transition: 0.3s ease;
+}
+
+.play-btn:hover { transform: scale(1.1); }
+.play-btn svg { width: 35px; fill: #0f172a; }
+
+/* Volumen */
+.volume-box {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.vol-slider {
+    flex: 1;
+    accent-color: var(--primary);
+    cursor: pointer;
+}
