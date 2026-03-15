@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Radio Live Fix - Atlántico</title>
+    <style>
+        body { background: #0f172a; color: white; font-family: sans-serif; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; }
+        .card { background: #1e293b; padding: 30px; border-radius: 20px; text-align: center; box-shadow: 0 10px 30px rgba(0,0,0,0.5); width: 320px; }
+        .btn { background: #38bdf8; border: none; padding: 15px 30px; border-radius: 50px; cursor: pointer; font-weight: bold; font-size: 1.2rem; margin: 20px 0; width: 100%; transition: 0.3s; color: #0f172a; }
+        .btn:hover { background: #7dd3fc; transform: scale(1.02); }
+        .status { color: #38bdf8; font-size: 0.8rem; letter-spacing: 1px; margin-bottom: 10px; font-weight: bold; height: 20px; }
+        select { width: 100%; padding: 12px; border-radius: 10px; background: #334155; color: white; border: 1px solid #475569; margin-bottom: 10px; cursor: pointer; }
+        h2 { margin-top: 0; color: #f8fafc; }
+    </style>
+</head>
+<body>
+
+<div class="card">
+    <div id="state" class="status">SISTEMA LISTO</div>
+    <h2 id="title">RADIO EN VIVO</h2>
+    
+    <select id="selector">
+        <option value="https://26673.live.streamtheworld.com/RNA_BARRANQUILLA_SC">LA REINA - BARRANQUILLA</option>
+        
+        <option value="https://stream.zeno.fm/08qxk717fd0uv">LA VALLENATA 24/7</option>
+        
+        <option value="https://stream-160.zeno.fm/gw02fc2zd0quv?zt=eyJhbGciOiJIUzI1NiJ9.eyJzdHJlYW0iOiJndzAyZmMyemQwcXV2IiwiaG9zdCI6InN0cmVhbS0xNjAuemVuby5mbSIsInJ0dGwiOjUsImp0aSI6ImlGRGxmd2JQVExTRk90cExqOWhlYkEiLCJpYXQiOjE3NzM2MDEzMTYsImV4cCI6MTc3MzYwMTM3Nn0.c2MomENuNU6Tk_vA_j-yO2JlAcoG4WRllW5dj26sjWA">EL ALMA DE UN ACORDEON - ATLANTICO</option>
+        
+        <option value="https://stream-153.zeno.fm/uy0wvup3cveuv?zt=eyJhbGciOiJIUzI1NiJ9.eyJzdHJlYW0iOiJ1eTB3dnVwM2N2ZXV2IiwiaG9zdCI6InN0cmVhbS0xNTMuemVuby5mbSIsInJ0dGwiOjUsImp0aSI6IlNFZXp1dmZlUjBlYTMyVWN1SjhiQ3ciLCJpYXQiOjE3NzM2MDE0MTAsImV4cCI6MTc3MzYwMTQ3MH0.T2Wn2tnaiCIbl8ZBhMuJAdeQPcSzZlqshjbfeT7D37k">PECHICHON VALLENATO - ATLANTICO</option>
+        
+        <option value="https://radiohd.streaminghd.co:7052/autodj">LA COSTEÑA - MONTERIA</option>
+        
+        <option value="https://stream-159.zeno.fm/f137r6sacchvv?zt=eyJhbGciOiJIUzI1NiJ9.eyJzdHJlYW0iOiJmMTM3cjZzYWNjaHZ2IiwiaG9zdCI6InN0cmVhbS0xNTkuemVuby5mbSIsInJ0dGwiOjUsImp0aSI6ImpoNDk0MVk4UnVTejFIUDhhRlRJOHciLCJpYXQiOjE3NzM2MDE3MDksImV4cCI6MTc3MzYwMTc2OX0.iy06lPLQ_zfFtXD9PEztsqVkEcFhofCACcfsWtyhS_A">LA CAMPEONA - MONTERIA</option>
+        
+        <option value="
+https://stream-177.zeno.fm/gg7bw1c4gd0uv?zt=eyJhbGciOiJIUzI1NiJ9.eyJzdHJlYW0iOiJnZzdidzFjNGdkMHV2IiwiaG9zdCI6InN0cmVhbS0xNzcuemVuby5mbSIsInJ0dGwiOjUsImp0aSI6ImFob19HdVJxUVN5REZDOFZpdlI1WGciLCJpYXQiOjE3NzM2MDIxMjAsImV4cCI6MTc3MzYwMjE4MH0.9NoigU4Ln4yBl_lIZq8x1HmiYofXhMVv_pJyjzyoNZk">EL CACIQUE DE VALENCIA - MONTERIA</option>
+        
+        <option value="https://stream-154.zeno.fm/6rrp139oqextv?zt=eyJhbGciOiJIUzI1NiJ9.eyJzdHJlYW0iOiI2cnJwMTM5b3FleHR2IiwiaG9zdCI6InN0cmVhbS0xNTQuemVuby5mbSIsInJ0dGwiOjUsImp0aSI6IjFGUUt4bnFSUURHYkw5WjdRWGFkMWciLCJpYXQiOjE3NzM2MDIxODQsImV4cCI6MTc3MzYwMjI0NH0.G8udi1VDA1EKxWOSWw8otPDXNPdHL8AB2Jn1DDIeXxQ">FIESTA VALLENATA</option>
+    </select>
+
+    <button class="btn" id="playBtn">REPRODUCIR</button>
+    <p style="font-size: 0.7rem; opacity: 0.6;">Selecciona la emisora y presiona Play.<br>Carga en 3-5 segundos.</p>
+</div>
+
+<script>
+    const audio = new Audio();
+    const btn = document.getElementById('playBtn');
+    const state = document.getElementById('state');
+    const selector = document.getElementById('selector');
+
+    let playing = false;
+
+    audio.crossOrigin = "anonymous";
+
+    btn.onclick = () => {
+        if (!playing) {
+            conectarRadio();
+        } else {
+            detenerRadio();
+        }
+    };
+
+    function conectarRadio() {
+        state.innerText = "CONECTANDO...";
+        audio.src = selector.value;
+        audio.load(); 
+        
+        const playPromise = audio.play();
+
+        if (playPromise !== undefined) {
+            playPromise.then(() => {
+                playing = true;
+                state.innerText = "🔴 EN VIVO";
+                btn.innerText = "PAUSAR";
+                btn.style.background = "#ef4444";
+                btn.style.color = "white";
+            }).catch(error => {
+                console.error("Error de carga:", error);
+                state.innerText = "URL NO DISPONIBLE";
+                playing = false;
+            });
+        }
+    }
+
+    function detenerRadio() {
+        audio.pause();
+        audio.src = ""; // Truco para resetear el streaming vivo
+        playing = false;
+        state.innerText = "PAUSADO";
+        btn.innerText = "REPRODUCIR";
+        btn.style.background = "#38bdf8";
+        btn.style.color = "#0f172a";
+    }
+
+    // Cambiar emisora automáticamente al seleccionar
+    selector.onchange = () => {
+        if(playing) {
+            conectarRadio();
+        }
+    };
+
+    // Eventos de red para informar al usuario
+    audio.addEventListener('waiting', () => {
+        if(playing) state.innerText = "CARGANDO SEÑAL...";
+    });
+
+    audio.addEventListener('playing', () => {
+        state.innerText = "🔴 EN VIVO";
+    });
+
+    audio.addEventListener('error', () => {
+        state.innerText = "ERROR EN EMISORA";
+        detenerRadio();
+    });
+</script>
+
+</body>
+</html>
